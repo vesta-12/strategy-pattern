@@ -1,4 +1,9 @@
-package org.example;
+package org.example.payment;
 
-public class PayPalPayment {
+public class PayPalPayment implements PaymentStrategy {
+
+    @Override
+    public String pay(int amount) {
+        return "pay with paypal" + " " + amount + "₸";
+    }
 }

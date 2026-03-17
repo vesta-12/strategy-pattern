@@ -1,17 +1,46 @@
-package org.example;
+package org.example.payment;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Scanner scanner = new Scanner(System.in);
+        PaymentProcessor processor = new PaymentProcessor();
+        int amount = 12600;
+        System.out.println("total amount is: " + amount + "₸");
+        System.out.println("\npick payment method:");
+        System.out.println("1. credit card");
+        System.out.println("2. paypal");
+        System.out.println("3. crypto");
+        System.out.println("4. apple pay");
+        System.out.print("your choice? ");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        int choice = scanner.nextInt();
+
+        switch (choice) {
+            case 1:
+                processor.setStrategy(new CreditCardPayment());
+                break;
+            case 2:
+                processor.setStrategy(new PayPalPayment());
+                break;
+            case 3:
+                processor.setStrategy(new CryptoPayment());
+                break;
+            case 4:
+                processor.setStrategy(new ApplePayPayment());
+                break;
+            default:
+                System.out.println("error");
+                scanner.close();
+                return;
         }
+
+        String result = processor.processPayment(amount);
+
+        System.out.println("\npayment result:");
+        System.out.println(result);
+
+        scanner.close();
     }
 }

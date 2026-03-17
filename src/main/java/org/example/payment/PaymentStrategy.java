@@ -1,4 +1,5 @@
-package org.example;
+package org.example.payment;
 
-public class PaymentStrategy {
+public interface PaymentStrategy {
+    String pay(int amount);
 }
